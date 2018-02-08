@@ -1,0 +1,24 @@
+{
+    "name": "itstructure/yii2-users-module",
+    "description": "Module to users manage for Yii2 Framework.",
+    "type": "package",
+    "keywords": ["yii2", "yii 2", "users", "module"],
+    "require": {
+        "yiisoft/yii2": "~2.0.5",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "itstructure/yii2-field-widgets": "^1.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Girnik",
+            "email": "girnikandrey@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Itstructure\\UsersModule\\": "src/"
+        }
+    }
+}
