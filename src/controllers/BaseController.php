@@ -3,19 +3,19 @@
 namespace Itstructure\UsersModule\controllers;
 
 use Yii;
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\filters\{VerbFilter, AccessControl};
-use yii\base\UnknownMethodException;
-use yii\web\{ConflictHttpException, BadRequestHttpException, NotFoundHttpException, Controller};
+use yii\base\{Model, UnknownMethodException};
+use yii\web\{IdentityInterface, ConflictHttpException, BadRequestHttpException, NotFoundHttpException, Controller};
 use Itstructure\UsersModule\interfaces\{ModelInterface, ValidateComponentInterface};
 
 /**
  * Class BaseController
  * Base controller class for the `users` module.
  *
- * @property ModelInterface|ActiveRecord $model
- * @property ActiveRecord $searchModel
+ * @property ModelInterface|Model|ActiveRecordInterface $model
+ * @property Model|ActiveRecordInterface $searchModel
  * @property ValidateComponentInterface|null $validateComponent
  * @property bool $viewCreated
  * @property array $additionFields
@@ -28,14 +28,14 @@ abstract class BaseController extends Controller
     /**
      * Model object record.
      *
-     * @var ModelInterface|ActiveRecord
+     * @var ModelInterface|Model|ActiveRecordInterface
      */
     protected $model;
 
     /**
      * Search new model object.
      *
-     * @var ActiveRecord
+     * @var Model|ActiveRecordInterface
      */
     protected $searchModel;
 
@@ -146,9 +146,9 @@ abstract class BaseController extends Controller
     /**
      * Set search model.
      *
-     * @param $model ActiveRecord
+     * @param $model ActiveRecordInterface
      */
-    public function setSearchModel(ActiveRecord $model): void
+    public function setSearchModel(ActiveRecordInterface $model): void
     {
         $this->searchModel = $model;
     }
@@ -166,7 +166,7 @@ abstract class BaseController extends Controller
     /**
      * Returns model.
      *
-     * @return ModelInterface
+     * @return ModelInterface|Model|ActiveRecordInterface
      */
     public function getModel(): ModelInterface
     {
@@ -176,9 +176,9 @@ abstract class BaseController extends Controller
     /**
      * Returns search model.
      *
-     * @return ActiveRecord
+     * @return ActiveRecordInterface|Model
      */
-    public function getSearchModel(): ActiveRecord
+    public function getSearchModel(): ActiveRecordInterface
     {
         return $this->searchModel;
     }
@@ -320,7 +320,7 @@ abstract class BaseController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($id == Yii::$app->user->identity->getId()) {
+        if ($model instanceof IdentityInterface && $id == Yii::$app->user->identity->getId()) {
             throw new ConflictHttpException('You can not delete yourself.');
         };
 

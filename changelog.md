@@ -1,5 +1,8 @@
 ### CHANGE LOG:
 
+**1.1.0:**
+- Modify interface architecture for expansion perspective with increased number of components.
+
 **1.0.0:**
 - Create module, which provides user management with changing the next default profile data:
     - name

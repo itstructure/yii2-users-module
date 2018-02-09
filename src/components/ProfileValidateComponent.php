@@ -4,7 +4,7 @@ namespace Itstructure\UsersModule\components;
 
 use Yii;
 use yii\web\IdentityInterface;
-use yii\base\{Component, InvalidConfigException};
+use yii\base\{Model, Component, InvalidConfigException};
 use yii\rbac\ManagerInterface;
 use Itstructure\UsersModule\{
     interfaces\ModelInterface,
@@ -124,12 +124,17 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     /**
      * Sets a user model for ProfileValidateComponent validation model.
      *
-     * @param IdentityInterface $model
+     * @param Model $model
      *
      * @return ModelInterface
      */
-    public function setModel(IdentityInterface $model): ModelInterface
+    public function setModel(Model $model): ModelInterface
     {
+        if (!$model instanceof IdentityInterface){
+            $modelClass = (new\ReflectionClass($model));
+            throw new InvalidConfigException($modelClass->getNamespaceName() . '\\' . $modelClass->getShortName().' class  must be implemented from yii\web\IdentityInterface.');
+        }
+
         /** @var ModelInterface $object */
         $object = Yii::createObject([
             'class' => ProfileValidate::class,

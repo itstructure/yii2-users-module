@@ -2,7 +2,7 @@
 
 namespace Itstructure\UsersModule\interfaces;
 
-use yii\web\IdentityInterface;
+use yii\base\Model;
 
 /**
  * Interface ValidateComponentInterface
@@ -14,9 +14,9 @@ interface ValidateComponentInterface
     /**
      * Search model data.
      *
-     * @param $model IdentityInterface
+     * @param $model Model
      *
      * @return ModelInterface
      */
-    public function setModel(IdentityInterface $model): ModelInterface;
+    public function setModel(Model $model): ModelInterface;
 }
