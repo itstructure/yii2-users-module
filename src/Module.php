@@ -157,6 +157,7 @@ class Module extends BaseModule
                 'class' => ProfileValidateComponent::class,
                 'rbacManage' => $this->rbacManage,
                 'customRewrite' => $this->customRewrite,
+                'authManager' => $this->rbacManage ? Yii::$app->authManager : null,
             ]
         ];
     }

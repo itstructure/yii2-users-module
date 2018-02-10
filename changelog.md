@@ -1,5 +1,8 @@
 ### CHANGE LOG:
 
+**1.2.0:**
+- Optimize load authManager.
+
 **1.1.0:**
 - Modify interface architecture for expansion perspective with increased number of components.
 

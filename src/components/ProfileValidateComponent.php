@@ -89,7 +89,7 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     /**
      * Auth manager.
      *
-     * @var ManagerInterface
+     * @var ManagerInterface|null
      */
     private $authManager = null;
 
@@ -98,16 +98,8 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
      */
     public function init()
     {
-        if ($this->rbacManage){
-            $this->authManager = Yii::$app->authManager;
-        }
-
         if ($this->rbacManage && null === $this->authManager){
             throw new InvalidConfigException('The authManager is not defined.');
-        }
-
-        if (!$this->authManager instanceof ManagerInterface){
-            throw new InvalidConfigException('The authManager must be implemented from yii\rbac\ManagerInterface.');
         }
     }
 
@@ -119,6 +111,16 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     public function getAuthManager(): ManagerInterface
     {
         return $this->authManager;
+    }
+
+    /**
+     * Set authManager (RBAC).
+     *
+     * @param ManagerInterface|null $authManager
+     */
+    public function setAuthManager(ManagerInterface $authManager = null): void
+    {
+        $this->authManager = $authManager;
     }
 
     /**

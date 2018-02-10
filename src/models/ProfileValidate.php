@@ -75,9 +75,9 @@ class ProfileValidate extends Model implements ModelInterface
     /**
      * Auth manager.
      *
-     * @var ManagerInterface
+     * @var ManagerInterface|null
      */
-    public $authManager = null;
+    private $authManager = null;
 
     /**
      * Scenarios constants.
@@ -92,10 +92,6 @@ class ProfileValidate extends Model implements ModelInterface
     {
         if ($this->rbacManage && null === $this->authManager){
             throw new InvalidConfigException('The authManager is not defined.');
-        }
-
-        if (!$this->authManager instanceof ManagerInterface){
-            throw new InvalidConfigException('The authManager must be implemented from yii\rbac\ManagerInterface.');
         }
     }
 
@@ -262,6 +258,16 @@ class ProfileValidate extends Model implements ModelInterface
     }
 
     /**
+     * Set auth manager.
+     *
+     * @param ManagerInterface|null $authManager
+     */
+    public function setAuthManager(ManagerInterface $authManager = null): void
+    {
+        $this->authManager = $authManager;
+    }
+
+    /**
      * Get field value.
      *
      * @param string $name field name.
@@ -277,6 +283,10 @@ class ProfileValidate extends Model implements ModelInterface
         if ($this->rbacManage && 'roles' === $name){
             $roles = $this->authManager->getRolesByUser($this->profileModel->getId());
             return array_keys($roles);
+        }
+
+        if ($this->rbacManage && 'authManager' === $name){
+            return $this->authManager;
         }
 
         return $this->profileModel->{$name} ?? '';
