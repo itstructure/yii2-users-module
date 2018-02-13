@@ -55,12 +55,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'created_at' => [
                     'attribute' => 'created_at',
                     'label' => Module::t('main', 'Created date'),
-                    'format' =>  ['date', 'd.M.Y H:m:s'],
+                    'format' =>  ['date', 'dd.MM.YY HH:mm:ss'],
                 ],
                 'updated_at' => [
                     'attribute' => 'updated_at',
                     'label' => Module::t('main', 'Updated date'),
-                    'format' =>  ['date', 'd.M.Y H:m:s'],
+                    'format' =>  ['date', 'dd.MM.Y HH:mm:ss'],
                 ],
                 'ActionColumn' => [
                     'class' => 'yii\grid\ActionColumn',

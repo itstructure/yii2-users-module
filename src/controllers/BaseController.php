@@ -14,38 +14,17 @@ use Itstructure\UsersModule\interfaces\{ModelInterface, ValidateComponentInterfa
  * Class BaseController
  * Base controller class for the `users` module.
  *
- * @property ModelInterface|Model|ActiveRecordInterface $model
- * @property Model|ActiveRecordInterface $searchModel
- * @property ValidateComponentInterface|null $validateComponent
  * @property bool $viewCreated
  * @property array $additionFields
  * @property array $additionAttributes
+ * @property ModelInterface|Model|ActiveRecordInterface $model
+ * @property Model|ActiveRecordInterface $searchModel
+ * @property ValidateComponentInterface|null $validateComponent
  *
  * @package Itstructure\UsersModule\controllers
  */
 abstract class BaseController extends Controller
 {
-    /**
-     * Model object record.
-     *
-     * @var ModelInterface|Model|ActiveRecordInterface
-     */
-    protected $model;
-
-    /**
-     * Search new model object.
-     *
-     * @var Model|ActiveRecordInterface
-     */
-    protected $searchModel;
-
-    /**
-     * Multilanguage component.
-     *
-     * @var ValidateComponentInterface|null
-     */
-    protected $validateComponent = null;
-
     /**
      * Watch or not created record.
      *
@@ -70,6 +49,27 @@ abstract class BaseController extends Controller
      * @var array
      */
     protected $additionAttributes = [];
+
+    /**
+     * Model object record.
+     *
+     * @var ModelInterface|Model|ActiveRecordInterface
+     */
+    private $model;
+
+    /**
+     * Search new model object.
+     *
+     * @var Model|ActiveRecordInterface
+     */
+    private $searchModel;
+
+    /**
+     * Multilanguage component.
+     *
+     * @var ValidateComponentInterface|null
+     */
+    private $validateComponent = null;
 
     /**
      * Returns the name of the base model.

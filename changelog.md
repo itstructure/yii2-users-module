@@ -1,5 +1,11 @@
 ### CHANGE LOG:
 
+**1.3.0:**
+- Change var type from protected to private in BaseController for: model, searchModel, 
+validateComponent. They can be set and got just only by magic methods.
+- Add a static var "_translations" in module class. Automatic run registerTranslations() function,
+ when the function **t()** in use.
+
 **1.2.0:**
 - Optimize load authManager.
 

@@ -57,6 +57,13 @@ class Module extends BaseModule
     private $_view = null;
 
     /**
+     * Module translations.
+     *
+     * @var array|null
+     */
+    private static $_translations = null;
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -69,6 +76,8 @@ class Module extends BaseModule
             Yii::$app->getUser()->loginUrl = $this->loginUrl;
         }
 
+        static::registerTranslations();
+
         /**
          * Set Profile validate component
          */
@@ -78,8 +87,6 @@ class Module extends BaseModule
                 $this->components
             )
         );
-
-        $this->registerTranslations();
     }
 
     /**
@@ -104,6 +111,10 @@ class Module extends BaseModule
      */
     public static function t($category, $message, $params = [], $language = null)
     {
+        if (null === static::$_translations){
+            static::registerTranslations();
+        }
+
         return Yii::t('modules/users/' . $category, $message, $params, $language);
     }
 
@@ -114,19 +125,21 @@ class Module extends BaseModule
      */
     public function registerTranslations(): void
     {
+        static::$_translations = [
+            'modules/users/*' => [
+                'class'          => 'yii\i18n\PhpMessageSource',
+                'forceTranslation' => true,
+                'sourceLanguage' => Yii::$app->language,
+                'basePath'       => '@users/messages',
+                'fileMap'        => [
+                    'modules/users/main' => 'main.php',
+                    'modules/users/users' => 'users.php',
+                ],
+            ]
+        ];
+
         Yii::$app->i18n->translations = ArrayHelper::merge(
-            [
-                'modules/users/*' => [
-                    'class'          => 'yii\i18n\PhpMessageSource',
-                    'forceTranslation' => true,
-                    'sourceLanguage' => Yii::$app->language,
-                    'basePath'       => '@users/messages',
-                    'fileMap'        => [
-                        'modules/users/main' => 'main.php',
-                        'modules/users/users' => 'users.php',
-                    ],
-                ]
-            ],
+            static::$_translations,
             Yii::$app->i18n->translations
         );
     }

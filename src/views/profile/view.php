@@ -67,12 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'created_at' => [
                     'attribute' => 'created_at',
-                    'format' =>  ['date', 'dd.MM.Y H:m:s'],
+                    'format' =>  ['date', 'dd.MM.Y HH:mm:ss'],
                     'label' => Module::t('main', 'Created date')
                 ],
                 'updated_at' => [
                     'attribute' => 'updated_at',
-                    'format' =>  ['date', 'dd.MM.Y H:m:s'],
+                    'format' =>  ['date', 'dd.MM.Y HH:mm:ss'],
                     'label' => Module::t('main', 'Updated date')
                 ],
             ],
