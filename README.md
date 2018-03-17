@@ -1,5 +1,8 @@
+Yii2 Users module
+==============
+
 1 Introduction
-------------
+----------------------------
 
 **Users module** -- Module for the Yii2 framework, which provides user management with changing 
 the next default profile data:
@@ -10,12 +13,14 @@ the next default profile data:
 - status
 - roles (if authManager exists in application and rbacManage is true)
 
-## 2 Dependencies
+2 Dependencies
+----------------------------
 - php >= 7
 - composer
 - MySql >= 5.5
 
-## 3 Installation
+3 Installation
+----------------------------
 
 Via composer:
 
@@ -31,8 +36,10 @@ and command ```composer install```, if you install yii2 project extensions first
 
 or command ```composer update```, if all yii2 project extensions are already installed.
 
-## 4 Usage
-#### 4.1 Main properties
+4 Usage
+----------------------------
+
+### 4.1 Main properties
 
 - The **name** of module: ```users```
 - The **namespace** for used classes: ```Itstructure\UsersModule```.
@@ -43,7 +50,8 @@ You cat set ```layout``` attribute in module by custom.
 - **View** component is taken by default from the framework like **yii\web\View**. You cat set 
 **View** component in module by custom.
 
-#### 4.2 Application config
+### 4.2 Application config
+
 Base application config must be like in example below:
 
 ```php
@@ -61,7 +69,7 @@ use Itstructure\UsersModule\controllers\ProfileController;
 ],
 ```
 
-#### 4.3 Useful module attributes
+### 4.3 Useful module attributes
 
 - ```loginUrl``` - set url to be redirected if you are not authorized.
 - ```rbacManage``` - if **true**, here will be involved the following functional:
@@ -114,7 +122,8 @@ use Itstructure\UsersModule\components\ProfileValidateComponent;
 To set parameters of ProfileValidateComponent correctly, see how it's already done in the 
 view profile templates and ProfileValidate model by default as example.
 
-## License
+License
+----------------------------
 Copyright © 2018 Andrey Girnik girnikandrey@gmail.com.
 
 Licensed under the [MIT license](http://opensource.org/licenses/MIT). See LICENSE.txt for details.

@@ -9,6 +9,7 @@ use yii\filters\{VerbFilter, AccessControl};
 use yii\base\{Model, UnknownMethodException};
 use yii\web\{IdentityInterface, ConflictHttpException, BadRequestHttpException, NotFoundHttpException, Controller};
 use Itstructure\UsersModule\interfaces\{ModelInterface, ValidateComponentInterface};
+use Itstructure\UsersModule\components\ProfileValidateComponent;
 
 /**
  * Class BaseController
@@ -19,7 +20,7 @@ use Itstructure\UsersModule\interfaces\{ModelInterface, ValidateComponentInterfa
  * @property array $additionAttributes
  * @property ModelInterface|Model|ActiveRecordInterface $model
  * @property Model|ActiveRecordInterface $searchModel
- * @property ValidateComponentInterface|null $validateComponent
+ * @property ValidateComponentInterface|ProfileValidateComponent|null $validateComponent
  *
  * @package Itstructure\UsersModule\controllers
  */
@@ -65,9 +66,9 @@ abstract class BaseController extends Controller
     private $searchModel;
 
     /**
-     * Multilanguage component.
+     * Validate component.
      *
-     * @var ValidateComponentInterface|null
+     * @var ValidateComponentInterface|ProfileValidateComponent|null
      */
     private $validateComponent = null;
 
@@ -186,7 +187,7 @@ abstract class BaseController extends Controller
     /**
      * Get validate component for main model.
      *
-     * @return ValidateComponentInterface
+     * @return ValidateComponentInterface|ProfileValidateComponent
      */
     public function getValidateComponent(): ValidateComponentInterface
     {
