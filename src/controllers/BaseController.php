@@ -6,21 +6,22 @@ use Yii;
 use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\filters\{VerbFilter, AccessControl};
-use yii\base\{Model, UnknownMethodException};
+use yii\base\UnknownMethodException;
 use yii\web\{IdentityInterface, ConflictHttpException, BadRequestHttpException, NotFoundHttpException, Controller};
+use Itstructure\UsersModule\Module;
 use Itstructure\UsersModule\interfaces\{ModelInterface, ValidateComponentInterface};
-use Itstructure\UsersModule\components\ProfileValidateComponent;
 
 /**
  * Class BaseController
  * Base controller class for the `users` module.
  *
+ * @property Module $module
  * @property bool $viewCreated
  * @property array $additionFields
  * @property array $additionAttributes
- * @property ModelInterface|Model|ActiveRecordInterface $model
- * @property Model|ActiveRecordInterface $searchModel
- * @property ValidateComponentInterface|ProfileValidateComponent|null $validateComponent
+ * @property ModelInterface $model
+ * @property ActiveRecordInterface $searchModel
+ * @property ValidateComponentInterface $validateComponent
  *
  * @package Itstructure\UsersModule\controllers
  */
@@ -54,21 +55,21 @@ abstract class BaseController extends Controller
     /**
      * Model object record.
      *
-     * @var ModelInterface|Model|ActiveRecordInterface
+     * @var ModelInterface
      */
     private $model;
 
     /**
      * Search new model object.
      *
-     * @var Model|ActiveRecordInterface
+     * @var ActiveRecordInterface
      */
     private $searchModel;
 
     /**
      * Validate component.
      *
-     * @var ValidateComponentInterface|ProfileValidateComponent|null
+     * @var ValidateComponentInterface
      */
     private $validateComponent = null;
 
@@ -93,7 +94,7 @@ abstract class BaseController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -102,7 +103,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => [
                         'POST',
@@ -117,7 +118,7 @@ abstract class BaseController extends Controller
      */
     public function init()
     {
-        $this->view->params['user'] = \Yii::$app->user->identity;
+        $this->view->params['user'] = Yii::$app->user->identity;
     }
 
     /**
@@ -167,7 +168,7 @@ abstract class BaseController extends Controller
     /**
      * Returns model.
      *
-     * @return ModelInterface|Model|ActiveRecordInterface
+     * @return ModelInterface
      */
     public function getModel(): ModelInterface
     {
@@ -177,7 +178,7 @@ abstract class BaseController extends Controller
     /**
      * Returns search model.
      *
-     * @return ActiveRecordInterface|Model
+     * @return ActiveRecordInterface
      */
     public function getSearchModel(): ActiveRecordInterface
     {
@@ -187,7 +188,7 @@ abstract class BaseController extends Controller
     /**
      * Get validate component for main model.
      *
-     * @return ValidateComponentInterface|ProfileValidateComponent
+     * @return ValidateComponentInterface
      */
     public function getValidateComponent(): ValidateComponentInterface
     {

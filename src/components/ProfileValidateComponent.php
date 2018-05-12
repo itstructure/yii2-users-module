@@ -3,8 +3,9 @@
 namespace Itstructure\UsersModule\components;
 
 use Yii;
+use yii\db\ActiveRecordInterface;
 use yii\web\IdentityInterface;
-use yii\base\{Model, Component, InvalidConfigException};
+use yii\base\{Component, InvalidConfigException};
 use yii\rbac\ManagerInterface;
 use Itstructure\UsersModule\{
     interfaces\ModelInterface,
@@ -35,63 +36,63 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
      *
      * @var array
      */
-    public $rules = [];
+    private $rules = [];
 
     /**
      * Attributes.
      *
      * @var array
      */
-    public $attributes = [];
+    private $attributes = [];
 
     /**
      * Attribute labels.
      *
      * @var array
      */
-    public $attributeLabels = [];
+    private $attributeLabels = [];
 
     /**
      * Set manage for roles.
      *
      * @var bool
      */
-    public $rbacManage = false;
+    private $rbacManage = false;
 
     /**
      * Rewrite rules, labels, attributes by custom.
      *
      * @var bool
      */
-    public $customRewrite = false;
+    private $customRewrite = false;
 
     /**
      * Form fields for the template.
      *
      * @var array
      */
-    public $formFields = [];
+    private $formFields = [];
 
     /**
      * Columns for GridView widget in index template file.
      *
      * @var array
      */
-    public $indexViewColumns = [];
+    private $indexViewColumns = [];
 
     /**
      * Attributes for DetailView widget in view template file.
      *
      * @var array
      */
-    public $detailViewAttributes = [];
+    private $detailViewAttributes = [];
 
     /**
      * Auth manager.
      *
-     * @var ManagerInterface|null
+     * @var ManagerInterface
      */
-    private $authManager = null;
+    private $authManager;
 
     /**
      * Initialize.
@@ -104,7 +105,177 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     }
 
     /**
-     * Returns the authManager (RBAC).
+     * Set validate fields with rules.
+     *
+     * @param array $rules
+     */
+    public function setRules(array $rules): void
+    {
+        $this->rules = $rules;
+    }
+
+    /**
+     * Get validate fields with rules.
+     *
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Set attributes.
+     *
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes): void
+    {
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * Get attributes.
+     *
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set attribute labels.
+     *
+     * @param array $attributeLabels
+     */
+    public function setAttributeLabels(array $attributeLabels): void
+    {
+        $this->attributeLabels = $attributeLabels;
+    }
+
+    /**
+     * Get attribute labels.
+     *
+     * @return array
+     */
+    public function getAttributeLabels(): array
+    {
+        return $this->attributeLabels;
+    }
+
+    /**
+     * Set manage for roles.
+     *
+     * @param bool $rbacManage
+     */
+    public function setRbacManage(bool $rbacManage): void
+    {
+        $this->rbacManage = $rbacManage;
+    }
+
+    /**
+     * Is manage for roles.
+     *
+     * @return bool
+     */
+    public function getRbacManage(): bool
+    {
+        return $this->rbacManage;
+    }
+
+    /**
+     * Set rewrite rules, labels, attributes by custom.
+     *
+     * @param bool $customRewrite
+     */
+    public function setCustomRewrite(bool $customRewrite): void
+    {
+        $this->customRewrite = $customRewrite;
+    }
+
+    /**
+     * Get rewrite rules, labels, attributes by custom.
+     *
+     * @return bool
+     */
+    public function getCustomRewrite(): bool
+    {
+        return $this->customRewrite;
+    }
+
+    /**
+     * Set form fields for the template.
+     *
+     * @param array $formFields
+     */
+    public function setFormFields(array $formFields): void
+    {
+        $this->formFields = $formFields;
+    }
+
+    /**
+     * Get Form fields for the template.
+     *
+     * @return array
+     */
+    public function getFormFields(): array
+    {
+        return $this->formFields;
+    }
+
+    /**
+     * Set columns for GridView widget in index template file.
+     *
+     * @param array $indexViewColumns
+     */
+    public function setIndexViewColumns(array $indexViewColumns): void
+    {
+        $this->indexViewColumns = $indexViewColumns;
+    }
+
+    /**
+     * Get columns for GridView widget in index template file.
+     *
+     * @return array
+     */
+    public function getIndexViewColumns(): array
+    {
+        return $this->indexViewColumns;
+    }
+
+    /**
+     * Set attributes for DetailView widget in view template file.
+     *
+     * @param array $detailViewAttributes
+     */
+    public function setDetailViewAttributes(array $detailViewAttributes): void
+    {
+        $this->detailViewAttributes = $detailViewAttributes;
+    }
+
+    /**
+     * Get attributes for DetailView widget in view template file.
+     *
+     * @return array
+     */
+    public function getDetailViewAttributes(): array
+    {
+        return $this->detailViewAttributes;
+    }
+
+    /**
+     * Set authManager (RBAC).
+     *
+     * @param ManagerInterface $authManager
+     */
+    public function setAuthManager(ManagerInterface $authManager): void
+    {
+        $this->authManager = $authManager;
+    }
+
+    /**
+     * Get authManager (RBAC).
      *
      * @return ManagerInterface
      */
@@ -114,28 +285,17 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     }
 
     /**
-     * Set authManager (RBAC).
+     * Set a user model for ProfileValidateComponent validation model.
      *
-     * @param ManagerInterface|null $authManager
-     */
-    public function setAuthManager(ManagerInterface $authManager = null): void
-    {
-        $this->authManager = $authManager;
-    }
-
-    /**
-     * Sets a user model for ProfileValidateComponent validation model.
+     * @param $model
      *
-     * @param Model $model
+     * @throws InvalidConfigException
      *
      * @return ModelInterface
      */
-    public function setModel(Model $model): ModelInterface
+    public function setModel($model): ModelInterface
     {
-        if (!$model instanceof IdentityInterface){
-            $modelClass = (new\ReflectionClass($model));
-            throw new InvalidConfigException($modelClass->getNamespaceName() . '\\' . $modelClass->getShortName().' class  must be implemented from yii\web\IdentityInterface.');
-        }
+        ProfileValidate::checkProfileModel($model);
 
         /** @var ModelInterface $object */
         $object = Yii::createObject([

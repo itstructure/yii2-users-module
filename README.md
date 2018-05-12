@@ -4,6 +4,13 @@ Yii2 Users module
 1 Introduction
 ----------------------------
 
+[![Latest Stable Version](https://poser.pugx.org/itstructure/yii2-users-module/v/stable)](https://packagist.org/packages/itstructure/yii2-users-module)
+[![Latest Unstable Version](https://poser.pugx.org/itstructure/yii2-users-module/v/unstable)](https://packagist.org/packages/itstructure/yii2-users-module)
+[![License](https://poser.pugx.org/itstructure/yii2-users-module/license)](https://packagist.org/packages/itstructure/yii2-users-module)
+[![Total Downloads](https://poser.pugx.org/itstructure/yii2-users-module/downloads)](https://packagist.org/packages/itstructure/yii2-users-module)
+[![Build Status](https://scrutinizer-ci.com/g/itstructure/yii2-users-module/badges/build.png?b=master)](https://scrutinizer-ci.com/g/itstructure/yii2-users-module/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/itstructure/yii2-users-module/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/itstructure/yii2-users-module/?branch=master)
+
 **Users module** -- Module for the Yii2 framework, which provides user management with changing 
 the next default profile data:
 - name
@@ -15,7 +22,7 @@ the next default profile data:
 
 2 Dependencies
 ----------------------------
-- php >= 7
+- php >= 7.1
 - composer
 - MySql >= 5.5
 
@@ -24,12 +31,12 @@ the next default profile data:
 
 Via composer:
 
-```composer require "itstructure/yii2-users-module": "^1.0.0"```
+```composer require "itstructure/yii2-users-module": "^1.4.0"```
 
 or in section **require** of composer.json file set the following:
 ```
 "require": {
-    "itstructure/yii2-users-module": "^1.0.0"
+    "itstructure/yii2-users-module": "^1.4.0"
 }
 ```
 and command ```composer install```, if you install yii2 project extensions first,

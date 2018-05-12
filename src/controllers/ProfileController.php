@@ -20,7 +20,7 @@ class ProfileController extends BaseController
 
         $this->validateComponent = $this->module->get('profile-validate-component');
 
-        $this->additionFields['customRewrite'] = $this->validateComponent->customRewrite;
+        $this->additionFields['customRewrite'] = $this->validateComponent->getCustomRewrite();
 
         parent::init();
     }
@@ -35,19 +35,19 @@ class ProfileController extends BaseController
     public function beforeAction($action)
     {
         if ($this->action->id == 'create' || $this->action->id == 'update'){
-            $this->additionFields['additionFields'] = $this->validateComponent->formFields;
+            $this->additionFields['additionFields'] = $this->validateComponent->getFormFields();
 
-            if ($this->validateComponent->rbacManage){
-                $this->additionFields['roles'] = $this->validateComponent->authManager->getRoles();
+            if ($this->validateComponent->getRbacManage()){
+                $this->additionFields['roles'] = $this->validateComponent->getAuthManager()->getRoles();
             }
         }
 
         if ($this->action->id == 'index'){
-            $this->additionFields['indexViewColumns'] = $this->validateComponent->indexViewColumns;
+            $this->additionFields['indexViewColumns'] = $this->validateComponent->getIndexViewColumns();
         }
 
         if ($this->action->id == 'view'){
-            $this->additionFields['detailViewAttributes'] = $this->validateComponent->detailViewAttributes;
+            $this->additionFields['detailViewAttributes'] = $this->validateComponent->getDetailViewAttributes();
         }
 
         return parent::beforeAction($action);

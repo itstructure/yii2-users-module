@@ -2,7 +2,7 @@
 
 namespace Itstructure\UsersModule\models;
 
-use yii\db\ActiveRecord;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 use yii\rbac\ManagerInterface;
@@ -17,7 +17,7 @@ use Itstructure\UsersModule\interfaces\ModelInterface;
  * @property array  $attributeLabels
  * @property bool  $rbacManage
  * @property bool  $customRewrite
- * @property IdentityInterface|ActiveRecord  $profileModel
+ * @property IdentityInterface|ActiveRecordInterface  $profileModel
  * @property ManagerInterface  $authManager
  * @property string  $name
  * @property string  $login
@@ -68,16 +68,16 @@ class ProfileValidate extends Model implements ModelInterface
     /**
      * Current profile (user) model.
      *
-     * @var IdentityInterface|ActiveRecord
+     * @var IdentityInterface|ActiveRecordInterface
      */
-    public $profileModel;
+    private $profileModel;
 
     /**
      * Auth manager.
      *
-     * @var ManagerInterface|null
+     * @var ManagerInterface
      */
-    private $authManager = null;
+    private $authManager;
 
     /**
      * Scenarios constants.
@@ -258,25 +258,15 @@ class ProfileValidate extends Model implements ModelInterface
     }
 
     /**
-     * Set auth manager.
-     *
-     * @param ManagerInterface|null $authManager
-     */
-    public function setAuthManager(ManagerInterface $authManager = null): void
-    {
-        $this->authManager = $authManager;
-    }
-
-    /**
      * Get field value.
      *
      * @param string $name field name.
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function __get($name)
     {
-        if ($this->profileModel->isNewRecord){
+        if ($this->profileModel->getIsNewRecord()){
             return $this->{$name} ?? '';
         }
 
@@ -296,22 +286,21 @@ class ProfileValidate extends Model implements ModelInterface
      * Set field value.
      *
      * @param string $name  name of field.
-     *
      * @param mixed  $value value to be stored in field.
      *
-     * @return mixed
+     * @return void
      */
     public function __set($name, $value)
     {
-        return $this->{$name} = $value;
+        $this->{$name} = $value;
     }
 
     /**
      * Returns profile (user) model.
      *
-     * @return IdentityInterface
+     * @return mixed
      */
-    public function getProfileModel(): IdentityInterface
+    public function getProfileModel()
     {
         return $this->profileModel;
     }
@@ -319,13 +308,27 @@ class ProfileValidate extends Model implements ModelInterface
     /**
      * Set profile (user) model.
      *
-     * @param $model IdentityInterface.
+     * @param $model.
+     *
+     * @throws InvalidConfigException
      *
      * @return void
      */
-    public function setProfileModel(IdentityInterface $model): void
+    public function setProfileModel($model): void
     {
+        self::checkProfileModel($model);
+
         $this->profileModel = $model;
+    }
+
+    /**
+     * Set auth manager.
+     *
+     * @param ManagerInterface $authManager
+     */
+    public function setAuthManager(ManagerInterface $authManager): void
+    {
+        $this->authManager = $authManager;
     }
 
     /**
@@ -352,7 +355,7 @@ class ProfileValidate extends Model implements ModelInterface
      */
     public function save(): bool
     {
-        if ($this->profileModel->isNewRecord){
+        if ($this->profileModel->getIsNewRecord()){
             $this->setScenario(self::SCENARIO_CREATE);
         } else {
             $this->setScenario(self::SCENARIO_UPDATE);
@@ -391,23 +394,50 @@ class ProfileValidate extends Model implements ModelInterface
     }
 
     /**
+     * Check profileModel for instances.
+     *
+     * @throws InvalidConfigException
+     *
+     * @param $model
+     *
+     * @return void
+     */
+    public static function checkProfileModel($model)
+    {
+        if (!($model instanceof ActiveRecordInterface)){
+            $modelClass = (new\ReflectionClass($model));
+            throw new InvalidConfigException($modelClass->getNamespaceName() .
+                '\\' . $modelClass->getShortName().' class  must be implemented from yii\db\ActiveRecordInterface.');
+        }
+
+        if (!($model instanceof IdentityInterface)){
+            $modelClass = (new\ReflectionClass($model));
+            throw new InvalidConfigException($modelClass->getNamespaceName() .
+                '\\' . $modelClass->getShortName().' class  must be implemented from yii\web\IdentityInterface.');
+        }
+    }
+
+    /**
      * Assign roles.
      *
      * @return void
      */
     private function assignRoles(): void
     {
-        if (!$this->profileModel->isNewRecord){
+        if (!$this->profileModel->getIsNewRecord()){
             $this->authManager->revokeAll(
                 $this->profileModel->getId()
             );
         }
 
         foreach ($this->roles as $role){
-            $this->authManager->assign(
-                $this->authManager->getRole($role),
-                $this->profileModel->getId()
-            );
+            $roleObject = $this->authManager->getRole($role);
+
+            if (null === $roleObject){
+                continue;
+            }
+
+            $this->authManager->assign($roleObject, $this->profileModel->getId());
         }
     }
 }
