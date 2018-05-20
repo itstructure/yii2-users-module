@@ -6,6 +6,7 @@ use Itstructure\UsersModule\Module;
 /* @var $model Itstructure\UsersModule\models\ProfileValidate */
 /* @var $customRewrite bool */
 /* @var $additionFields array */
+/* @var $additionTemplate string */
 /* @var $roles yii\rbac\Role[] */
 
 $this->title = Module::t('users', 'Update user') . ': ' . $model->name;
@@ -19,6 +20,7 @@ $this->params['breadcrumbs'][] = Module::t('main', 'Update');
         'model' => $model,
         'customRewrite' => $customRewrite,
         'additionFields' => $additionFields,
+        'additionTemplate' => $additionTemplate,
         'roles' => isset($roles) && is_array($roles) ? $roles : [],
     ]) ?>
 

@@ -23,6 +23,7 @@ use Itstructure\UsersModule\{
  * @property bool  $rbacManage
  * @property bool  $customRewrite
  * @property array $formFields
+ * @property string|callable $formTemplate Form fields template.
  * @property array $indexViewColumns
  * @property array $detailViewAttributes
  * @property ManagerInterface $authManager
@@ -72,6 +73,13 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
      * @var array
      */
     private $formFields = [];
+
+    /**
+     * Form fields template.
+     *
+     * @var string|callable
+     */
+    private $formTemplate = '';
 
     /**
      * Columns for GridView widget in index template file.
@@ -222,6 +230,26 @@ class ProfileValidateComponent extends Component implements ValidateComponentInt
     public function getFormFields(): array
     {
         return $this->formFields;
+    }
+
+    /**
+     * Set form fields template.
+     *
+     * @param string|callable $formTemplate
+     */
+    public function setFormTemplate($formTemplate): void
+    {
+        $this->formTemplate = $formTemplate;
+    }
+
+    /**
+     * Get form fields template.
+     *
+     * @return string|callable
+     */
+    public function getFormTemplate()
+    {
+        return $this->formTemplate;
     }
 
     /**

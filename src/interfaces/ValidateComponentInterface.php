@@ -96,6 +96,20 @@ interface ValidateComponentInterface
     public function getFormFields(): array ;
 
     /**
+     * Set form fields template.
+     *
+     * @param string|callable $formTemplate
+     */
+    public function setFormTemplate($formTemplate): void;
+
+    /**
+     * Get form fields template.
+     *
+     * @return string|callable
+     */
+    public function getFormTemplate();
+
+    /**
      * Set columns for GridView widget in index template file.
      *
      * @param array $indexViewColumns

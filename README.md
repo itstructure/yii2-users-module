@@ -31,12 +31,12 @@ the next default profile data:
 
 Via composer:
 
-```composer require "itstructure/yii2-users-module": "^1.4.0"```
+```composer require "itstructure/yii2-users-module": "^1.5.0"```
 
 or in section **require** of composer.json file set the following:
 ```
 "require": {
-    "itstructure/yii2-users-module": "^1.4.0"
+    "itstructure/yii2-users-module": "^1.5.0"
 }
 ```
 and command ```composer install```, if you install yii2 project extensions first,

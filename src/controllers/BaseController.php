@@ -212,7 +212,7 @@ abstract class BaseController extends Controller
                     'searchModel' => $this->searchModel,
                     'dataProvider' => $this->searchModel->search(Yii::$app->request->queryParams),
                 ],
-                $this->additionFields
+                $this->getAdditionFields()
             )
         );
     }
@@ -231,7 +231,7 @@ abstract class BaseController extends Controller
                 [
                     'model' => $this->findModel($id),
                 ],
-                $this->additionFields
+                $this->getAdditionFields()
             )
         );
     }
@@ -270,7 +270,7 @@ abstract class BaseController extends Controller
                 [
                     'model' => $this->model,
                 ],
-                $this->additionFields
+                $this->getAdditionFields()
             )
         );
     }
@@ -303,7 +303,7 @@ abstract class BaseController extends Controller
                 [
                     'model' => $this->model,
                 ],
-                $this->additionFields
+                $this->getAdditionFields()
             )
         );
     }
@@ -341,6 +341,15 @@ abstract class BaseController extends Controller
         $this->model->setAttributes($this->additionAttributes, false);
 
         return true;
+    }
+
+    /**
+     * Get addition fields for the view template.
+     * @return array
+     */
+    protected function getAdditionFields(): array
+    {
+        return $this->additionFields;
     }
 
     /**

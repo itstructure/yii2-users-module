@@ -11,6 +11,7 @@ use Itstructure\UsersModule\Module;
 /* @var $roles yii\rbac\Role[] */
 /* @var $customRewrite bool */
 /* @var $additionFields array */
+/* @var $additionTemplate string */
 ?>
 
 <div class="profile-form">
@@ -20,60 +21,60 @@ use Itstructure\UsersModule\Module;
     <div class="row">
         <div class="col-md-4">
 
-            <?php echo Fields::widget([
-                'fields' => $customRewrite ? $additionFields : ArrayHelper::merge(
-                    ArrayHelper::merge(
-                        isset($roles) && is_array($roles) && !empty($roles) ?
-                        [
-                            'roles' => [
-                                'name' => 'roles',
-                                'type' => FieldType::FIELD_TYPE_CHECKBOX,
-                                'data' => ArrayHelper::map($roles, 'name', 'name'),
-                                'label' => Module::t('users', 'Roles')
-                            ]
-                        ] : [],
-                        [
-                            'name' => [
-                                'name' => 'name',
-                                'type' => FieldType::FIELD_TYPE_TEXT,
-                                'label' => Module::t('users', 'Name')
-                            ],
-                            'login' => [
-                                'name' => 'login',
-                                'type' => FieldType::FIELD_TYPE_TEXT,
-                                'label' => Module::t('users', 'Login')
-                            ],
-                            'email' => [
-                                'name' => 'email',
-                                'type' => FieldType::FIELD_TYPE_TEXT,
-                                'label' => Module::t('users', 'Email')
-                            ],
-                            'status' => [
-                                'name' => 'status',
-                                'type' => FieldType::FIELD_TYPE_DROPDOWN,
-                                'data' => [
-                                    1 => Module::t('main', 'Active'),
-                                    0 => Module::t('main', 'Blocked')
+            <?php echo $customRewrite ? $additionTemplate : $additionTemplate . Fields::widget([
+                    'fields' => $customRewrite ? $additionFields : ArrayHelper::merge(
+                        ArrayHelper::merge(
+                            isset($roles) && is_array($roles) && !empty($roles) ?
+                                [
+                                    'roles' => [
+                                        'name' => 'roles',
+                                        'type' => FieldType::FIELD_TYPE_CHECKBOX,
+                                        'data' => ArrayHelper::map($roles, 'name', 'name'),
+                                        'label' => Module::t('users', 'Roles')
+                                    ]
+                                ] : [],
+                            [
+                                'name' => [
+                                    'name' => 'name',
+                                    'type' => FieldType::FIELD_TYPE_TEXT,
+                                    'label' => Module::t('users', 'Name')
                                 ],
-                                'label' => Module::t('users', 'Status'),
-                            ],
-                            'password' => [
-                                'name' => 'password',
-                                'type' => FieldType::FIELD_TYPE_PASSWORD,
-                                'label' => Module::t('users', 'Password')
-                            ],
-                            'passwordRepeat' => [
-                                'name' => 'passwordRepeat',
-                                'type' => FieldType::FIELD_TYPE_PASSWORD,
-                                'label' => Module::t('users', 'Password confirm')
-                            ],
-                        ]
+                                'login' => [
+                                    'name' => 'login',
+                                    'type' => FieldType::FIELD_TYPE_TEXT,
+                                    'label' => Module::t('users', 'Login')
+                                ],
+                                'email' => [
+                                    'name' => 'email',
+                                    'type' => FieldType::FIELD_TYPE_TEXT,
+                                    'label' => Module::t('users', 'Email')
+                                ],
+                                'status' => [
+                                    'name' => 'status',
+                                    'type' => FieldType::FIELD_TYPE_DROPDOWN,
+                                    'data' => [
+                                        1 => Module::t('main', 'Active'),
+                                        0 => Module::t('main', 'Blocked')
+                                    ],
+                                    'label' => Module::t('users', 'Status'),
+                                ],
+                                'password' => [
+                                    'name' => 'password',
+                                    'type' => FieldType::FIELD_TYPE_PASSWORD,
+                                    'label' => Module::t('users', 'Password')
+                                ],
+                                'passwordRepeat' => [
+                                    'name' => 'passwordRepeat',
+                                    'type' => FieldType::FIELD_TYPE_PASSWORD,
+                                    'label' => Module::t('users', 'Password confirm')
+                                ],
+                            ]
+                        ),
+                        $additionFields
                     ),
-                    $additionFields
-                ),
-                'model' => $model,
-                'form'  => $form,
-            ]) ?>
+                    'model' => $model,
+                    'form'  => $form,
+                ]) ?>
 
         </div>
     </div>

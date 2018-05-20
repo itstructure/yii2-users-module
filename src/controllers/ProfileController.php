@@ -2,6 +2,8 @@
 
 namespace Itstructure\UsersModule\controllers;
 
+use yii\base\InvalidConfigException;
+
 /**
  * Class ProfileController
  * ProfileController implements the CRUD actions for identityClass.
@@ -20,37 +22,49 @@ class ProfileController extends BaseController
 
         $this->validateComponent = $this->module->get('profile-validate-component');
 
-        $this->additionFields['customRewrite'] = $this->validateComponent->getCustomRewrite();
-
         parent::init();
     }
 
     /**
-     * Set other additionFields for all actions.
+     * Returns addition fields.
      *
-     * @param $action
+     * @throws InvalidConfigException
      *
-     * @return mixed
+     * @return array
      */
-    public function beforeAction($action)
+    protected function getAdditionFields(): array
     {
+        $additionFields = [];
+
+        $additionFields['customRewrite'] = $this->validateComponent->getCustomRewrite();
+
         if ($this->action->id == 'create' || $this->action->id == 'update'){
-            $this->additionFields['additionFields'] = $this->validateComponent->getFormFields();
+            $additionFields['additionFields'] = $this->validateComponent->getFormFields();
+
+            $additionTemplate = $this->validateComponent->getFormTemplate();
+            if (is_callable($additionTemplate)){
+                $additionTemplate = call_user_func($additionTemplate, $this->getModel());
+            }
+            if (is_string($additionTemplate)){
+                $additionFields['additionTemplate'] = $additionTemplate;
+            } else {
+                throw new InvalidConfigException('Addition template as a result be a string.');
+            }
 
             if ($this->validateComponent->getRbacManage()){
-                $this->additionFields['roles'] = $this->validateComponent->getAuthManager()->getRoles();
+                $additionFields['roles'] = $this->validateComponent->getAuthManager()->getRoles();
             }
         }
 
         if ($this->action->id == 'index'){
-            $this->additionFields['indexViewColumns'] = $this->validateComponent->getIndexViewColumns();
+            $additionFields['indexViewColumns'] = $this->validateComponent->getIndexViewColumns();
         }
 
         if ($this->action->id == 'view'){
-            $this->additionFields['detailViewAttributes'] = $this->validateComponent->getDetailViewAttributes();
+            $additionFields['detailViewAttributes'] = $this->validateComponent->getDetailViewAttributes();
         }
 
-        return parent::beforeAction($action);
+        return $additionFields;
     }
 
     /**

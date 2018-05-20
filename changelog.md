@@ -1,5 +1,11 @@
 ### CHANGE LOG:
 
+**1.5.0 May 20, 2018:**
+- Add string|callable attribute ```formTemplate``` in to ```ProfileValidateComponent```.
+- Add ```getAdditionFields()``` function in to ```BaseController```.
+- Modify view templates.
+- Modify ```ProfileController``` with new function ```getAdditionFields()```.
+
 **1.4.0 May 13, 2018:**
 - Modify dependencies: minimum-stability is set to dev.
 - Added prefer-stable with true.
