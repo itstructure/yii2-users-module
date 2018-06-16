@@ -20,7 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?php echo Html::a(Module::t('users', 'Create user'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php echo Html::a(Module::t('users', 'Create user'), [
+            $this->params['urlPrefix'].'create'
+        ], [
+            'class' => 'btn btn-success'
+        ]) ?>
     </p>
 
     <?php echo GridView::widget([
@@ -33,7 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function($searchModel) {
                         return Html::a(
                             Html::encode($searchModel->id),
-                            Url::to(['view', 'id' => $searchModel->id])
+                            Url::to([
+                                $this->params['urlPrefix'].'view',
+                                'id' => $searchModel->id
+                            ])
                         );
                     },
                     'format' => 'raw',
@@ -43,7 +50,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function($searchModel) {
                         return Html::a(
                             Html::encode($searchModel->name),
-                            Url::to(['view', 'id' => $searchModel->id])
+                            Url::to([
+                                $this->params['urlPrefix'].'view',
+                                'id' => $searchModel->id
+                            ])
                         );
                     },
                     'format' => 'raw',
@@ -66,6 +76,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'yii\grid\ActionColumn',
                     'header' => Module::t('main', 'Actions'),
                     'template' => '{view} {update} {delete}',
+                    'urlCreator'=>function($action, $model, $key, $index){
+                        return Url::to([
+                            $this->params['urlPrefix'].$action,
+                            'id' => $model->id
+                        ]);
+                    }
                 ],
             ],
             $indexViewColumns

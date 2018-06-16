@@ -12,17 +12,28 @@ use Itstructure\UsersModule\Module;
 /* @var $detailViewAttributes array */
 
 $this->title = Module::t('users', 'User') . ': ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => 'Users',
+    'url' => [
+        $this->params['urlPrefix'].'index'
+    ]
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="profile-view">
 
     <p>
-        <?php echo Html::a(Module::t('main', 'Update'), ['update', 'id' => $model->id], [
+        <?php echo Html::a(Module::t('main', 'Update'), [
+            $this->params['urlPrefix'].'update',
+            'id' => $model->id
+        ], [
             'class' => 'btn btn-primary'
         ]) ?>
 
-        <?php echo Html::a(Module::t('main', 'Delete'), ['delete', 'id' => $model->id], [
+        <?php echo Html::a(Module::t('main', 'Delete'), [
+            $this->params['urlPrefix'].'delete',
+            'id' => $model->id
+        ], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Module::t('main', 'Are you sure you want to do this action?'),

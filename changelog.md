@@ -1,5 +1,8 @@
 ### CHANGE LOG:
 
+**1.6.0 June 16, 2018:**
+- Add ```urlPrefix``` parameter in to ```BaseController``` for redirect and view links.
+
 **1.5.0 May 20, 2018:**
 - Add string|callable attribute ```formTemplate``` in to ```ProfileValidateComponent```.
 - Add ```getAdditionFields()``` function in to ```BaseController```.

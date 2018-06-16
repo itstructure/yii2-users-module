@@ -11,7 +11,9 @@ use yii\widgets\ActiveForm;
 <div class="user-search">
 
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
+        'action' => [
+            $this->params['urlPrefix'].'index'
+        ],
         'method' => 'get',
     ]); ?>
 

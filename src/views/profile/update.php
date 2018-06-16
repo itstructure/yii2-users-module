@@ -10,8 +10,19 @@ use Itstructure\UsersModule\Module;
 /* @var $roles yii\rbac\Role[] */
 
 $this->title = Module::t('users', 'Update user') . ': ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => Module::t('users', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = [
+    'label' => Module::t('users', 'Users'),
+    'url' => [
+        $this->params['urlPrefix'].'index'
+    ]
+];
+$this->params['breadcrumbs'][] = [
+    'label' => $model->name,
+    'url' => [
+        $this->params['urlPrefix'].'view',
+        'id' => $model->id
+    ]
+];
 $this->params['breadcrumbs'][] = Module::t('main', 'Update');
 ?>
 <div class="profile-update">

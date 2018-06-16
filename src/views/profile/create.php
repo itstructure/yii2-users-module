@@ -10,7 +10,12 @@ use Itstructure\UsersModule\Module;
 /* @var $roles yii\rbac\Role[] */
 
 $this->title = Module::t('users', 'Create user');
-$this->params['breadcrumbs'][] = ['label' => Module::t('users', 'Users'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => Module::t('users', 'Users'),
+    'url' => [
+        $this->params['urlPrefix'].'index'
+    ]
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="profile-create">
